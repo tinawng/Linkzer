@@ -1,0 +1,14 @@
+{
+  "name": "linkzer",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build"
+  },
+  "dependencies": {
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "error-by-value": "git+https://git.tina.cafe/Tina/error-by-value.git",
+    "nuxt": "^4.2.0"
+  }
+}
