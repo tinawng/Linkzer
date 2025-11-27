@@ -59,5 +59,6 @@ export default defineEventHandler(async event => {
 
   if (!destination_link || !destination_link.length)
     throw createError({ status: 500, message: "failed to find generate link for specified service" })
-  return destination_link
+  
+  return sendRedirect(event, destination_link, 301)
 })
