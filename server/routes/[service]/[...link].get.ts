@@ -2,11 +2,12 @@ import { $try, $tryAsync } from "error-by-value"
 import { deleteURLSearchParams } from "../../services/utils"
 import deezer_service from "../../services/deezer"
 import spotify_service from "../../services/spotify"
+import tidal_service from "../../services/tidal"
 
 const SUPPORTED_SERVICE = ["spotify", "deezer", "tidal", "lastfm"]
 const SUPPORTED_LINK_HOSTNAME = ["open.spotify.com", "link.deezer.com", "www.deezer.com", "tidal.com", "www.last.fm"]
 
-const services = [deezer_service, spotify_service]
+const services = [deezer_service, spotify_service, tidal_service]
 
 export default defineEventHandler(async event => {
   const destination_service = getRouterParam(event, "service")
@@ -33,8 +34,6 @@ export default defineEventHandler(async event => {
     url = deleteURLSearchParams(resolved_url)
   }
 
-  //TODO: check if urlhsotname is the same as service
-
   let universal_identifiers: Identifiers = { isrc: undefined, upc: undefined, name: undefined }
   for (const service of services)
     if (service.hostname === url.hostname) {
@@ -53,6 +52,7 @@ export default defineEventHandler(async event => {
   for (const service of services)
     if (service.name === destination_service) {
       const { data, error } = await $tryAsync(service.generateLink(universal_identifiers))
+      
       if (error) throw createError({ status: 500, message: error })
       destination_link = data
     }
