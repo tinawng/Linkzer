@@ -113,9 +113,9 @@ export default {
       if (!data.data?.[0]?.attributes?.externalLinks?.[0]?.href) throw "failed to find album using tidal api with upc " + identifiers.upc
       return data.data[0].attributes.externalLinks[0].href
     } else if (identifiers.name) {
-        /**
-         * Tidal's fuzzy search is pretty bad and often gives wrong artist if not popular enough.
-         */
+      /**
+       * Tidal's fuzzy search is pretty bad and often gives wrong artist if not popular enough.
+       */
       const { data, error } = await $tryAsync(
         $tidal(`searchResults/${identifiers.name}/relationships/artists`, {
           headers: { authorization: `Bearer ${await getAccessToken()}` },
