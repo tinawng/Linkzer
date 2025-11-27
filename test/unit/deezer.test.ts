@@ -1,5 +1,6 @@
 import { describe, test, expect } from "bun:test"
 import { ofetch } from "ofetch"
+
 global.$fetch = ofetch
 
 describe("Deezer extractFromLink", async () => {

@@ -4,7 +4,12 @@ import { deleteURLSearchParams } from "./utils"
 /**
  * @description https://developers.deezer.com/api
  */
-const $deezer = $fetch.create({ baseURL: "https://api.deezer.com/" })
+const $deezer = $fetch.create({
+  baseURL: "https://api.deezer.com/",
+  onResponseError({ request, response }) {
+    console.error("[fetch response error]", request, response.status)
+  },
+})
 
 export default {
   name: "deezer",
@@ -50,7 +55,7 @@ export default {
       if (!name || !name.length) throw "failed to fetch artist name from deezer api for artist id " + artist_id
 
       return { name }
-    } else throw ""
+    } else throw "only tracks, albums or artists links are supported for now"
   },
   generateLink: async (identifiers: Identifiers): Promise<string> => {
     if (identifiers.isrc) {
@@ -69,6 +74,6 @@ export default {
       if (!data.data.length || !data.data[0] || !data.data[0].link)
         throw "failed to find artist using deezer api with name " + identifiers.name
       return data.data[0].link
-    } else throw ""
+    } else throw "identifiers object does not contains any identifier"
   },
 }

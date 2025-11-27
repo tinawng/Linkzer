@@ -4,7 +4,12 @@ import { deleteURLSearchParams } from "./utils"
 /**
  * @description https://developer.spotify.com/documentation/web-api
  */
-const $spotify = $fetch.create({ baseURL: "https://api.spotify.com/v1/" })
+const $spotify = $fetch.create({
+  baseURL: "https://api.spotify.com/v1/",
+  onResponseError({ request, response }) {
+    console.error("[fetch response error]", request, response.status)
+  },
+})
 
 /**
  * @description https://developer.spotify.com/documentation/web-api/tutorials/client-credentials-flow
@@ -18,8 +23,8 @@ async function getAccessToken(): Promise<string> {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: {
           grant_type: "client_credentials",
-          client_id: useRuntimeConfig().SPOTIFY_USER_CLIENT,
-          client_secret: useRuntimeConfig().SPOTIFY_USER_SECRET,
+          client_id: useRuntimeConfig().SPOTIFY_CLIENT_ID,
+          client_secret: useRuntimeConfig().SPOTIFY_CLIENT_SECRET,
         },
       })
     )
@@ -81,7 +86,7 @@ export default {
       if (!name || !name.length) throw "failed to fetch artist name from spotify api for artist id " + artist_id
 
       return { name }
-    } else throw ""
+    } else throw "only tracks, albums or artists links are supported for now"
   },
   generateLink: async (identifiers: Identifiers): Promise<string> => {
     if (identifiers.isrc) {
@@ -117,6 +122,6 @@ export default {
       if (!data?.artists?.items[0]?.external_urls?.spotify) throw "failed to find artist using spotify api with name " + identifiers.name
 
       return data.artists.items[0].external_urls.spotify
-    } else throw "identifiers object doesnt contains any identifier"
+    } else throw "identifiers object does not contains any identifier"
   },
 }

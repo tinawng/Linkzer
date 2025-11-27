@@ -13,8 +13,10 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    SPOTIFY_USER_CLIENT: "",
-    SPOTIFY_USER_SECRET: ""
+    SPOTIFY_CLIENT_ID: "",
+    SPOTIFY_CLIENT_SECRET: "",
+    TIDAL_CLIENT_ID: "",
+    TIDAL_CLIENT_SECRET: "",
   },
 
   routeRules: {
