@@ -14,7 +14,6 @@ const $tidal = $fetch.create({
 /**
  * @description https://developer.tidal.com/documentation/api-sdk/api-sdk-authorization
  */
-
 const auth_token = { access_token: "", expires_at: 0 }
 async function getAccessToken(): Promise<string> {
   if (auth_token.expires_at <= Date.now()) {
